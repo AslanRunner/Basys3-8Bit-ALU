@@ -22,8 +22,8 @@ The project consists of three main modules connected in a hierarchical structure
 ### 3. testbench.v
 * It integrates all other modules like CU and ALU and establishes the wire connections between them.
 * **Debouncer Algorithm:** It uses a delay counter of approximately 1 million cycles on the 100MHz clock signal to prevent metastability caused by electrical bounces when the user presses the physical button.
-* **Binary-to-BCD Converter:** It separates the 8-bit binary data from the ALU into hundreds, tens, and ones digits[cite: 4]. If the number is negative, it calculates the absolute value by taking the inverse and adding 1 for correct display on the screen.
-* **Display Multiplexer:** It creates an optical illusion by turning the four 7-segment displays on and off sequentially at very high speeds[cite: 4]. For negative results, it only lights up the `-` sign `7'b0111111` on the leftmost display.
+* **Binary-to-BCD Converter:** It separates the 8-bit binary data from the ALU into hundreds, tens, and ones digits. If the number is negative, it calculates the absolute value by taking the inverse and adding 1 for correct display on the screen.
+* **Display Multiplexer:** It creates an optical illusion by turning the four 7-segment displays on and off sequentially at very high speeds. For negative results, it only lights up the `-` sign `7'b0111111` on the leftmost display.
 
 ---
 
