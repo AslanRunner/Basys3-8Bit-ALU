@@ -12,8 +12,8 @@ module control_unit(
     output reg [7:0] w 
 );
 
-
 always @(*) begin
+    // Initially assigned the value 0 to all
     R_a_addr = 4'b0000;
     R_b_addr = 4'b0000;
     R_d_addr = 4'b0000;
@@ -21,104 +21,103 @@ always @(*) begin
     ram_addr = 8'b00000000;
     w = 8'b00000000;
 
-    opcode = inputs[15:12]; 
+    opcode = inputs[15:12]; // operation code
     case(opcode)
-        // 4'b0000 (LOA):
+        // LOA:
         4'b0000: begin
             R_d_addr = inputs[11:8];
             w = inputs[7:0];
         end
 
-        // 4'b0001 (REA)
+        // REA
         4'b0001: begin
             R_d_addr = inputs[11:8];
             ram_addr = inputs[7:0];
         end
 
-        // 4'b0010 (STR)
+        // STR
         4'b0010: begin
             R_a_addr = inputs[11:8];
             ram_addr = inputs[7:0];
         end
 
-        // 4'b0011 (MOV)
+        // MOV
         4'b0011: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
-
-        // 4'b0100 (ADD)
+        // ADD
         4'b0100: begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
             R_d_addr = inputs[3:0];
         end
 
-        // 4'b0101(SUB)
+        // SUB
         4'b0101: begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
             R_d_addr = inputs[3:0];
         end
-        // 4'b0110 (INC)
+        // INC
         4'b0110: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
-        // 4'b0111 (DEC)
+        // DEC
          4'b0111: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
 
-        //4'b1000(AND)
+        // AND
         4'b1000: begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
             R_d_addr = inputs[3:0];
         end
 
-        //4'b1001(ORX):
+        // ORX
         4'b1001:begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
             R_d_addr = inputs[3:0];
         end
 
-        //4'b1010 (XOR)
+        // XOR
         4'b1010:begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
             R_d_addr = inputs[3:0];
         end
 
-        //4'b1011 (NOT)
+        // NOT
         4'b1011: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
 
-        //4'b1100 (SHL)
+        // SHL
         4'b1100: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
 
-        // 4'b1101 (SHR)
+        // SHR
         4'b1101: begin
             R_a_addr = inputs[11:8];
             R_d_addr = inputs[7:4];
         end
 
-            // 4'b1110 (CMP)
+            // CMP
         4'b1110: begin
             R_a_addr = inputs[11:8];
             R_b_addr = inputs[7:4];
         end
 
-            // 4'b1111 (NEX)
+            // NEX
         4'b1111: begin
-            // bos
+            // empty
         end
 
         default: begin
@@ -129,4 +128,3 @@ end
 
 endmodule
  
-
