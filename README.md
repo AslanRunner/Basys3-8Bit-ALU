@@ -17,7 +17,7 @@ The project consists of three main modules connected in a hierarchical structure
 * It is the muscle of the system, housing 16 registers and 256 RAM blocks, each holding 8-bit data.
 * It can execute 16 different operations including addition, subtraction, shifting, and logical operators.
 * It checks whether the operation results are negative and generates a special `sign` bit for the display driver.
-* For the CMP command `1110`, it includes a practical hardware workaround that outputs readable results directly to the display—100 for greater, 10 for equal, and 1 for less—instead of using LED flags.
+* For the CMP command `1110`, it includes a practical hardware workaround that outputs readable results directly to the display-100 for greater, 10 for equal, and 1 for less—instead of using LED flags.
 
 ### 3. testbench.v
 * It integrates all other modules like CU and ALU and establishes the wire connections between them.
