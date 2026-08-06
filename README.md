@@ -1,0 +1,44 @@
+# 8-Bit Arithmetic Logic Unit Design on Basys 3 FPGA
+
+## About the Project
+This project is an 8-bit Arithmetic Logic Unit, or ALU, designed for the **Basys 3 FPGA** board using the Verilog hardware description language[cite: 2, 5]. The system uses a 16-bit input data to perform various mathematical, logical, and memory operations on its internal 256-byte RAM block and 16 registers[cite: 3, 5]. The project also implements advanced hardware architectures such as the accurate display of Two's Complement negative numbers and debouncer logic for stable physical button operation[cite: 4, 5].
+
+---
+
+## Hardware Architecture and Modules
+The project consists of three main modules connected in a hierarchical structure:
+
+### 1. control_unit.v
+* It acts as the brain of the system by parsing the 16-bit raw switch input `inputs`[cite: 3].
+* It extracts the most significant 4 bits of the input as the operation code `opcode`[cite: 3].
+* Depending on the operation type, it routes the remaining 12 bits to their specific destinations such as the destination register `R_d_addr`, source registers `R_a_addr` and `R_b_addr`, RAM address `ram_addr`, or external data `w`[cite: 3].
+
+### 2. alu.v
+* It is the muscle of the system, housing 16 registers and 256 RAM blocks, each holding 8-bit data[cite: 5].
+* It can execute 16 different operations including addition, subtraction, shifting, and logical operators[cite: 5].
+* It checks whether the operation results are negative and generates a special `sign` bit for the display driver[cite: 5].
+* For the CMP command `1110`, it includes a practical hardware workaround that outputs readable results directly to the display—100 for greater, 10 for equal, and 1 for less—instead of using LED flags[cite: 5].
+
+### 3. testbench.v
+* It integrates all other modules like CU and ALU and establishes the wire connections between them[cite: 4].
+* **Debouncer Algorithm:** It uses a delay counter of approximately 1 million cycles on the 100MHz clock signal to prevent metastability caused by electrical bounces when the user presses the physical button[cite: 4].
+* **Binary-to-BCD Converter:** It separates the 8-bit binary data from the ALU into hundreds, tens, and ones digits[cite: 4]. If the number is negative, it calculates the absolute value by taking the inverse and adding 1 for correct display on the screen[cite: 4].
+* **Display Multiplexer:** It creates an optical illusion by turning the four 7-segment displays on and off sequentially at very high speeds[cite: 4]. For negative results, it only lights up the `-` sign `7'b0111111` on the leftmost display[cite: 4].
+
+---
+
+## Basys 3 FPGA Constraints
+The system interacts with the hardware on the **Basys 3** board according to the XDC file as follows:
+
+* **System Clock clk:** The native 100 MHz clock signal of Basys 3 on pin `W5` is used for screen scanning and synchronization[cite: 2].
+* **Operation Trigger btnC:** The center button connected to pin `U18` is used to manually start the operation[cite: 2].
+* **Command Input sw:** 16 physical switches lined up from pin `V17` to `R2` are used[cite: 2].
+* **7-Segment Display:** Four anode pins `U2`, `U4`, `V4`, `W4` and seven cathode pins from `W7` to `U7` are used to display data and the minus sign[cite: 2].
+* **Decimal Point dp:** Pin `V7` is hardware-configured to remain off `1'b1` at all times to prevent confusion on the screen[cite: 2, 4].
+
+---
+
+## Development Notes
+* The project coding was carried out considering Xilinx Vivado and Icarus Verilog compatible standards.
+* To prevent unwanted Latch formations during signal routing, initial reset values like `4'b0000` and `8'b00000000` were assigned in the `always @*` block within the `control_unit`[cite: 3].
+* Artificial Intelligence guidance was utilized for some complex logic designs of the project coding, and this is noted in the `basys3.xdc` constraints file[cite: 2].
